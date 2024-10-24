@@ -3,11 +3,12 @@
     This python module maintains remote devices to get activity and other information
     (range, rx_power, fp_power, quality, last received time)
 """
+
 import random
 import time
-import DW1000Constants as C
-import DW1000Time
-import DW1000Mac
+from . import DW1000Constants as C
+from . import DW1000Time
+from . import DW1000Mac
 
 
 class DW1000DistantDevice(object):
@@ -49,12 +50,12 @@ class DW1000DistantDevice(object):
 
     def set_address(self, device_address):
         self._own_address = device_address
-        #DW1000.converToByte(deviceAddress, _ownAddress)
+        # DW1000.converToByte(deviceAddress, _ownAddress)
 
     def set_short_address(self, short_address):
         self._short_address = short_address
         # memcpy(_shortAddress, deviceAddress, 2)
-    
+
     def set_range(self, given_range):
         self._range = given_range
 
@@ -116,12 +117,11 @@ class DW1000DistantDevice(object):
         self._own_address[7] = random.uniform(0, 255)
 
     def note_activity(self):
-        self._activity = int(round(time.time()*1000))
+        self._activity = int(round(time.time() * 1000))
 
     def is_inactive(self):
-        if (int(round(time.time()*1000))-self._activity) > C.INACTIVITY_TIME:
-            self._activity = int(round(time.time()*1000))
+        if (int(round(time.time() * 1000)) - self._activity) > C.INACTIVITY_TIME:
+            self._activity = int(round(time.time() * 1000))
             return True
         else:
             return False
-        

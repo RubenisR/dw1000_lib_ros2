@@ -5,7 +5,8 @@
 import DW1000Constants as C
 import DW1000Ranging
 
-class DW1000Mac():
+
+class DW1000Mac:
     _seq_number = 0
 
     def __init__(self):
@@ -13,8 +14,8 @@ class DW1000Mac():
 
     def generate_blink_frame(self, source_address, source_short_address):
         """
-            For poll message, authors use just 2 bytes address
-            Totla: 12 bytes
+        For poll message, authors use just 2 bytes address
+        Totla: 12 bytes
         """
         # Initialize frame
         frame = bytearray()
@@ -43,9 +44,9 @@ class DW1000Mac():
 
     def generate_short_mac_frame(self, source_short_address, destination_short_address):
         """
-            The short frame usually for Resp, Final, or Report
-            2 bytes for Destination Address and 2 bytes for Source Address
-            Total: 9 bytes
+        The short frame usually for Resp, Final, or Report
+        2 bytes for Destination Address and 2 bytes for Source Address
+        Total: 9 bytes
         """
 
         # Init frame
@@ -75,35 +76,35 @@ class DW1000Mac():
 
     def generate_long_mac_frame(self, source_short_address, destination_address):
         """
-            The long frame for ranging init
-            8 bytes for destination address and 2 bytes for source address
-            Total: 15 bytes
+        The long frame for ranging init
+        8 bytes for destination address and 2 bytes for source address
+        Total: 15 bytes
         """
-        
+
         # Initialize byte array
         frame = bytearray()
 
-        frame.append(C.FC_1)    # 0
-        frame.append(C.FC_2)    # 1
+        frame.append(C.FC_1)  # 0
+        frame.append(C.FC_2)  # 1
 
-        frame.append(self._seq_number) # 2
+        frame.append(self._seq_number)  # 2
 
         frame.append(0xCA)  # 3
         frame.append(0xDE)  # 4
 
         # Destination address (8 bytes, reversed)
-        frame.append(destination_address[7])    # 5
-        frame.append(destination_address[6])    # 6
-        frame.append(destination_address[5])    # 7
-        frame.append(destination_address[4])    # 8
-        frame.append(destination_address[3])    # 9
-        frame.append(destination_address[2])    # 10
-        frame.append(destination_address[1])    # 11
-        frame.append(destination_address[0])    # 12
+        frame.append(destination_address[7])  # 5
+        frame.append(destination_address[6])  # 6
+        frame.append(destination_address[5])  # 7
+        frame.append(destination_address[4])  # 8
+        frame.append(destination_address[3])  # 9
+        frame.append(destination_address[2])  # 10
+        frame.append(destination_address[1])  # 11
+        frame.append(destination_address[0])  # 12
 
         # Source address (2 bytes, reversed)
-        frame.append(source_short_address[1])   # 13
-        frame.append(source_short_address[0])   # 14
+        frame.append(source_short_address[1])  # 13
+        frame.append(source_short_address[0])  # 14
 
         self.increment_seq_number()
 
@@ -143,7 +144,7 @@ class DW1000Mac():
         return address
 
     def increment_seq_number(self):
-        if(self._seq_number == 255):
+        if self._seq_number == 255:
             self._seq_number = 0
         else:
             self._seq_number += 1

@@ -10,7 +10,7 @@ import math
 from random import randint
 import spidev
 import RPi.GPIO as GPIO
-import DW1000Constants as C
+from . import DW1000Constants as C
 
 
 class DW1000(object):

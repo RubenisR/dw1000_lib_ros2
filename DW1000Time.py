@@ -2,11 +2,12 @@
     This python module deal with time/timestamp/distance measurement/management of DW1000
 """
 
-import DW1000Constants as C
+from . import DW1000Constants as C
 
-class DW1000Time():
+
+class DW1000Time:
     """
-        This class manages timestamp
+    This class manages timestamp
     """
 
     _timestamp = 0
@@ -32,7 +33,7 @@ class DW1000Time():
                 The data with the timestamp added to it
         """
         for i in range(0, C.LENGTH_TIMESTAMP):
-            data[i+index] = int((timestamp >> (i * 8)) & C.MASK_LS_BYTE)
+            data[i + index] = int((timestamp >> (i * 8)) & C.MASK_LS_BYTE)
 
     def get_timestamp(self, data, index):
         """
@@ -47,7 +48,7 @@ class DW1000Time():
         """
         timestamp = 0
         for i in range(0, C.LENGTH_TIMESTAMP):
-            timestamp |= data[i+index] << (i*8)
+            timestamp |= data[i + index] << (i * 8)
         return timestamp
 
     def wrap_timestamp(self, timestamp):
@@ -65,29 +66,30 @@ class DW1000Time():
 
     def get_as_float(self):
         """
-            This function returns timestamp as microseconds
+        This function returns timestamp as microseconds
         """
         self.get_as_micro_seconds()
 
     def get_as_micro_seconds(self):
         """
-            This function returns timestamp as microseconds
+        This function returns timestamp as microseconds
         """
         return (self.timestamp % C.TIME_OVERFLOW) * C.TIME_RES
 
     def get_as_meters(self):
         """
-            This function returns travel distance as meters with respect to travel time(timestamp)
+        This function returns travel distance as meters with respect to travel time(timestamp)
         """
-        return (self.timestamp%C.TIME_OVERFLOW)*C.DISTANCE_OF_RADIO
+        return (self.timestamp % C.TIME_OVERFLOW) * C.DISTANCE_OF_RADIO
 
     def is_valid_timestamp(self):
         """
-            This function check and returns whether timestamp is valid or not
+        This function check and returns whether timestamp is valid or not
         """
         return 0 <= self.timestamp & self.timestamp <= C.TIME_MAX
 
-'''
+
+"""
     ## Operator overloading
 
     # assign
@@ -128,5 +130,4 @@ class DW1000Time():
 
     def __div__(self, factor):
         return (self /= factor)
-'''
-
+"""
